@@ -4,7 +4,7 @@ class HumanPlayer :
     public Player
 {
 public:
-    virtual void TakeTurn();
+    virtual Vector2dInt ChooseStrikePos( const Grid* const _opponentGrid );
     virtual void PlaceShips() override;
 };
 

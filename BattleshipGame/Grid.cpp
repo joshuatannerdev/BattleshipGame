@@ -65,10 +65,10 @@ void Grid::Draw( int _startPosX, int _startPosY ) const
 		std::cout << " " << j + 1;
 	}
 	GoToXY( drawPosX, ++drawPosY );
-	std::cout << " -+";
+	std::cout << " __";
 	for ( unsigned int j = 0; j < gridWidth; j++ )
 	{
-		std::cout << "-+";
+		std::cout << "__";
 	}
 	GoToXY( drawPosX, ++drawPosY );
 
@@ -86,4 +86,24 @@ void Grid::Draw( int _startPosX, int _startPosY ) const
 
 		GoToXY( drawPosX, ++drawPosY );
 	}
+}
+
+GridType Grid::GetGridTypeAtPos( int _posX, int _posY ) const
+{
+	if ( _posX < 0 || _posX > gridWidth || _posY < 0 || _posY > gridHeight )
+	{
+		// Invalid - out of bounds
+		return GridType::GRIDTYPE_COUNT;
+	}
+	return m_gridTypes[_posY][_posX];
+}
+
+void Grid::SetGridTypeAtPos( int _posX, int _posY, GridType _gridType )
+{
+	if ( _posX < 0 || _posX > gridWidth || _posY < 0 || _posY > gridHeight )
+	{
+		// Invalid - out of bounds
+		return;
+	}
+	m_gridTypes[_posY][_posX] = _gridType;
 }

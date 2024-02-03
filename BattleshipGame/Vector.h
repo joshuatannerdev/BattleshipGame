@@ -1,4 +1,5 @@
 #pragma once
+#include <math.h>
 
 struct Vector2dInt
 {
@@ -10,22 +11,28 @@ struct Vector2dInt
 		:x(_x)
 		,y(_y)
 	{}
-	Vector2dInt operator*( const Vector2dInt& _rhs )
-	{
-		Vector2dInt result( this->x * _rhs.x, this->y * _rhs.y );
-		return result;
+	bool operator==( const Vector2dInt& _rhs ) { return this->x == _rhs.x && this->y == _rhs.y; }
+	bool operator!=( const Vector2dInt& _rhs ) { return this->x != _rhs.x || this->y != _rhs.y; }
+	bool operator>=( const Vector2dInt& _rhs ) { return this->x >= _rhs.x && this->y >= _rhs.y; }
+	bool operator<=( const Vector2dInt& _rhs ) { return this->x <= _rhs.x && this->y <= _rhs.y; }
+
+	Vector2dInt operator*( const Vector2dInt& _rhs ) { return Vector2dInt( this->x * _rhs.x, this->y * _rhs.y ); }
+	Vector2dInt operator+( const Vector2dInt& _rhs ) { return Vector2dInt( this->x + _rhs.x, this->y + _rhs.y ); }	
+	Vector2dInt operator-( const Vector2dInt& _rhs ) { return Vector2dInt( this->x - _rhs.x, this->y - _rhs.y ); }
+	Vector2dInt operator*( const int _rhs ) { return Vector2dInt( this->x * _rhs, this->y * _rhs ); }
+	Vector2dInt& operator+=( const Vector2dInt& _rhs ) {
+		this->x += _rhs.x;
+		this->y += _rhs.y;
+		return *this;
 	}
-	Vector2dInt operator+( const Vector2dInt& _rhs )
-	{
-		Vector2dInt result( this->x + _rhs.x, this->y + _rhs.y );
-		return result;
+	Vector2dInt operator=( const Vector2dInt& _rhs ) {
+		this->x = _rhs.x;
+		this->y = _rhs.y;
+		return *this;
 	}
 
-	Vector2dInt operator*( const int _rhs )
-	{
-		Vector2dInt result( this->x * _rhs, this->y * _rhs );
-		return result;
-	}
+
+	int Length() const { return sqrt( pow( x, 2 ) + pow( y, 2 ) ); }
 
 	int x;
 	int y;

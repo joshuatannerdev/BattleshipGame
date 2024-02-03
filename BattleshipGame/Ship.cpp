@@ -43,7 +43,7 @@ Vector2dInt GetDirectionForShipOrientation( ShipOrientation _shipOrientation )
 
 Ship::Ship( ShipType _shipType )
 	: m_shipType(_shipType)
-	, m_shipOrientation(ShipOrientation::LEFT)
+	, m_shipOrientation(ShipOrientation::RIGHT)
 	, m_startPos(0, 0)
 	, m_endPos(0, 0)
 	, m_health(GetLengthForShipType(_shipType))
@@ -59,7 +59,7 @@ void Ship::SetOrientation( ShipOrientation _shipOrientation )
 {
 	m_shipOrientation = _shipOrientation;
 
-	// We may wish to recalculate end position now...
+	CacheEndPosition();
 }
 
 void Ship::SetPosition( int _posX, int _posY )
@@ -67,17 +67,29 @@ void Ship::SetPosition( int _posX, int _posY )
 	m_startPos.x = _posX;
 	m_startPos.y = _posY;
 
-	// Cache the end point for easier queries of the ship's bounds
-	Vector2dInt endPointOffset = GetDirectionForShipOrientation( m_shipOrientation ) *
-		GetLengthForShipType( m_shipType );
-
-	m_endPos = m_startPos + endPointOffset;
+	CacheEndPosition();
 }
 
 
-bool Ship::IsShipHit( int _posX, int _posY ) const
+bool Ship::IsPosInShipBounds( Vector2dInt _pos ) const
 {
+	// Ship can be orienated in different directions, so check
+	// if pos lands in either Start to End OR End to Start.
+	if ( ( _pos >= m_startPos && _pos <= m_endPos ) ||
+		 ( _pos >= m_endPos && _pos <= m_startPos ) )
+	{
+		return true;
+	}
+
 	return false;
+}
+
+bool Ship::StrikeShip()
+{
+	// Assert health > 0
+
+	m_health--;
+	return m_health <= 0;
 }
 
 // We need to easily check that no points within the ship are already marked as SHIP on the grid...
@@ -93,4 +105,13 @@ void Ship::GetShipBounds( Vector2dInt& o_startPos, Vector2dInt& o_endPos ) const
 {
 	o_startPos = m_startPos;
 	o_endPos = m_endPos;
+}
+
+void Ship::CacheEndPosition()
+{
+	// Cache the end point for easier queries of the ship's bounds
+	Vector2dInt endPointOffset = GetDirectionForShipOrientation( m_shipOrientation ) *
+		GetLengthForShipType( m_shipType );
+
+	m_endPos = m_startPos + endPointOffset;
 }

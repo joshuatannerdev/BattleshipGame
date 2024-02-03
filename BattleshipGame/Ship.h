@@ -1,27 +1,8 @@
 #pragma once
 
+#include "ShipDeclare.h"
 #include "Vector.h"
 
-enum ShipType
-{
-	PATROL_BOAT,
-	SUBMARINE,
-	DESTROYER,
-	BATTLESHIP,
-	AIRCRAFT_CARRIER,
-
-	SHIPTYPE_COUNT
-};
-
-enum ShipOrientation
-{	
-	LEFT,
-	RIGHT,
-	UP,
-	DOWN,
-
-	SHIPORIENTATION_COUNT
-};
 
 class Ship
 {
@@ -35,9 +16,13 @@ private:
 public:
 	void SetOrientation( ShipOrientation _shipOrientation );
 	void SetPosition( int _posX, int _posY );
-	bool IsShipHit( int _posX, int _posY ) const;
+	bool IsPosInShipBounds( Vector2dInt _pos ) const;
+	bool StrikeShip();
 	bool IsShipDestroyed() const;
 	void GetShipBounds( Vector2dInt& o_startPos, Vector2dInt& o_endPos ) const;
+
+private :
+	void CacheEndPosition();
 
 private:
 	ShipType m_shipType;
