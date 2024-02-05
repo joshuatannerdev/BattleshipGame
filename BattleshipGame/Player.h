@@ -3,6 +3,8 @@
 #include "ShipDeclare.h"
 #include "Vector.h"
 
+#include <memory>
+
 class Grid;
 
 /// <summary>
@@ -25,7 +27,7 @@ public:
 	void DrawPlayerGrid() const;
 	void StrikePlayerGrid( const Vector2dInt& _strikePos );
 	bool CheckAllShipsDestroyed() const;
-	const Grid* const GetGridReadOnly() const { return m_grid; }
+	const Grid* const GetGridReadOnly() const { return m_grid.get(); }
 
 protected:
 	void PlaceShipsRandomly();
@@ -33,6 +35,6 @@ protected:
 	void MarkShipAsSunkOnGrid( ShipType _shipType );
 
 protected:
-	Ship* m_ships[ShipType::SHIPTYPE_COUNT];
-	Grid* m_grid;
+	std::unique_ptr<Ship> m_ships[ShipType::SHIPTYPE_COUNT];
+	std::unique_ptr<Grid> m_grid;
 };

@@ -30,20 +30,6 @@ Player::Player( int _xDrawOffset, bool _hideShipGridType )
 /// </summary>
 Player::~Player()
 {
-	if ( m_grid )
-	{
-		delete m_grid;
-		m_grid = nullptr;
-	}
-
-	for ( unsigned int i = 0; i < ShipType::SHIPTYPE_COUNT; i++ )
-	{
-		if ( m_ships[i] )
-		{
-			delete m_ships[i];
-			m_ships[i] = nullptr;
-		}
-	}
 }
 
 /// <summary>
@@ -51,11 +37,11 @@ Player::~Player()
 /// </summary>
 void Player::InitialisePlayer( int _xDrawOffset, bool _hideShipGridType )
 {
-	m_grid = new Grid( _xDrawOffset, _hideShipGridType );
+	m_grid = std::make_unique<Grid>( _xDrawOffset, _hideShipGridType );
 
 	for ( unsigned int i = 0; i < ShipType::SHIPTYPE_COUNT; i++ )
 	{
-		m_ships[i] = new Ship( static_cast<ShipType>( i ) );
+		m_ships[i] = std::make_unique<Ship>( static_cast<ShipType>( i ) );
 	}
 }
 
@@ -191,7 +177,7 @@ bool Player::TryPlaceShipOnGrid( ShipType _shipType )
 		return false;
 	}
 
-	const Ship* const ship = m_ships[static_cast<int>( _shipType )];
+	const Ship* const ship = m_ships[static_cast<int>( _shipType )].get();
 
 	// Test that the ship is within the grid
 	Vector2dInt startPos, endPos;
@@ -252,7 +238,7 @@ void Player::MarkShipAsSunkOnGrid( ShipType _shipType )
 		assert( false && "Invalid Ship Type" );
 		return;
 	}
-	const Ship* const ship = m_ships[_shipType];
+	const Ship* const ship = m_ships[_shipType].get();
 
 	Vector2dInt startPos, endPos;
 	ship->GetShipBounds( startPos, endPos );

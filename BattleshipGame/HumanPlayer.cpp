@@ -54,7 +54,7 @@ void HumanPlayer::PlaceShips()
 	for ( unsigned int i = 0; i < ShipType::SHIPTYPE_COUNT; i++ )
 	{
 		ShipType const shipType = static_cast<ShipType>( i );
-		Ship* ship = m_ships[shipType];
+		Ship* ship = m_ships[shipType].get();
 
 		bool positionConfirmed = false;
 		while ( !positionConfirmed )
