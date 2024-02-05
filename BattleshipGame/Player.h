@@ -12,14 +12,14 @@ class Player
 {
 public:
 	Player();
-	Player( int _xDrawOffset, bool _hideShipGridType);
+	Player( int _xDrawOffset, bool _hideShipGridType );
 	~Player();
 
 private:
 	void InitialisePlayer( int _xDrawOffset = 0, bool _hideShipGridType = false );
 
 public:
-	virtual Vector2dInt ChooseStrikePos(const Grid* const _opponentGrid) = 0;
+	virtual Vector2dInt ChooseStrikePos( const Grid* const _opponentGrid ) = 0;
 	virtual void PlaceShips();
 
 	void DrawPlayerGrid() const;

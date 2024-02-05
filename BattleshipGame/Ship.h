@@ -3,7 +3,9 @@
 #include "ShipDeclare.h"
 #include "Vector.h"
 
-
+/// <summary>
+/// Ship class.
+/// </summary>
 class Ship
 {
 public:
@@ -17,12 +19,12 @@ public:
 	void SetOrientation( ShipOrientation _shipOrientation );
 	void SetPosition( const Vector2dInt& _pos );
 	bool IsPosInShipBounds( const Vector2dInt& _pos ) const;
+	void GetShipBounds( Vector2dInt& o_startPos, Vector2dInt& o_endPos ) const;
 	bool StrikeShip();
 	bool IsShipDestroyed() const;
 	int GetLength() const;
-	void GetShipBounds( Vector2dInt& o_startPos, Vector2dInt& o_endPos ) const;
 
-private :
+private:
 	void CacheEndPosition();
 
 private:
@@ -32,4 +34,3 @@ private:
 	Vector2dInt m_endPos;
 	int m_health;
 };
-

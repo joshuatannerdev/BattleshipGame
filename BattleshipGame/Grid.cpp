@@ -123,7 +123,7 @@ void Grid::Draw() const
 	// Draw each row
 	char rowLetter = 'A';
 	for ( unsigned int i = 0; i < g_gridHeight; i++ )
-	{		
+	{
 		std::cout << rowLetter << " |";
 		rowLetter++;
 
@@ -162,6 +162,8 @@ GridType Grid::GetGridTypeAtPos( const Vector2dInt& _pos ) const
 void Grid::SetGridTypeAtPos( const Vector2dInt& _pos, GridType _gridType )
 {
 	assert( _gridType >= 0 && _gridType < GridType::GRIDTYPE_COUNT );
+	// We should never be changing the grid type after a ship has been sunk!
+	assert( GetGridTypeAtPos( _pos ) != GridType::SHIP_SUNK );
 	if ( _pos.x < 0 || _pos.x > g_gridWidth || _pos.y < 0 || _pos.y > g_gridHeight )
 	{
 		// Invalid - out of bounds

@@ -79,9 +79,9 @@ void Player::DrawPlayerGrid() const
 /// Strike a position on player grid and update the grid type as appropriate.
 /// </summary>
 /// <param name="_strikePos">The position to strike</param>
-void Player::StrikePlayerGrid( const Vector2dInt& _strikePos ) 
+void Player::StrikePlayerGrid( const Vector2dInt& _strikePos )
 {
-	
+
 	GridType const gridType = m_grid->GetGridTypeAtPos( _strikePos );
 	if ( gridType == GridType::HIT || gridType == GridType::SHIP_SUNK )
 	{
@@ -140,13 +140,13 @@ void Player::PlaceShipsRandomly()
 		{
 			int const shipLength = m_ships[i]->GetLength();
 			ShipOrientation orientation = static_cast<ShipOrientation>( rand() % ShipOrientation::SHIPORIENTATION_COUNT );
-			Vector2dInt startPosition = Vector2dInt();			
-			
+			Vector2dInt startPosition = Vector2dInt();
+
 			// Generate a random startPosition, accounting for length and orientation.
 			switch ( orientation )
 			{
 				case LEFT:
-					startPosition.x = (rand() % g_gridWidth - shipLength) + shipLength;
+					startPosition.x = ( rand() % g_gridWidth - shipLength ) + shipLength;
 					startPosition.y = rand() % g_gridHeight;
 					break;
 				case RIGHT:
@@ -184,14 +184,14 @@ void Player::PlaceShipsRandomly()
 /// </summary>
 /// <param name="_shipType"></param>
 bool Player::TryPlaceShipOnGrid( ShipType _shipType )
-{	
+{
 	if ( _shipType < static_cast<ShipType>( 0 ) || _shipType >= ShipType::SHIPTYPE_COUNT )
 	{
 		assert( false && "Invalid Ship Type" );
 		return false;
 	}
 
-	const Ship* const ship = m_ships[static_cast<int>(_shipType)];
+	const Ship* const ship = m_ships[static_cast<int>( _shipType )];
 
 	// Test that the ship is within the grid
 	Vector2dInt startPos, endPos;
@@ -231,7 +231,7 @@ bool Player::TryPlaceShipOnGrid( ShipType _shipType )
 
 	// Otherwise, its safe to place on the grid
 	posIter = startPos;
-	for (int i = 0; i < delta.Length(); i++)	
+	for ( int i = 0; i < delta.Length(); i++ )
 	{
 		m_grid->SetGridTypeAtPos( posIter, GridType::SHIP );
 		posIter += clampedDelta;
@@ -263,10 +263,10 @@ void Player::MarkShipAsSunkOnGrid( ShipType _shipType )
 		std::clamp( delta.x, -1, 1 ),
 		std::clamp( delta.y, -1, 1 )
 	);
+
 	for ( int i = 0; i < delta.Length(); i++ )
 	{
 		m_grid->SetGridTypeAtPos( posIter, GridType::SHIP_SUNK );
 		posIter += clampedDelta;
 	}
 }
-

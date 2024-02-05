@@ -5,6 +5,10 @@
 
 #include "Vector.h"
 
+/// <summary>
+/// Declares for ship class and relevant enums/helper functions.
+/// </summary>
+
 class Ship;
 
 enum ShipType

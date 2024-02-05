@@ -3,7 +3,7 @@
 #include "ShipDeclare.h"
 
 ComputerPlayer::ComputerPlayer()
-	: Player( 30, false )
+	: Player( 30, true )
 	, m_lastSuccesfulStrikePos( 0, 0 )
 {
 }
@@ -30,14 +30,14 @@ Vector2dInt ComputerPlayer::ChooseStrikePos( const Grid* const _opponentGrid )
 			if ( _opponentGrid->GetGridTypeAtPos( adjacentPos ) == GridType::HIT )
 			{
 				// This seems to be the direction of the ship, strike in this direction.
-				directionToStrike = direction;		
+				directionToStrike = direction;
 				directionFound = true;
 			}
 		}
 
 		if ( !directionFound )
 		{
-			ShipOrientation randomOrientation = static_cast<ShipOrientation>( 
+			ShipOrientation randomOrientation = static_cast<ShipOrientation>(
 				rand() % static_cast<int>( ShipOrientation::SHIPORIENTATION_COUNT ) );
 			directionToStrike = GetDirectionForShipOrientation( randomOrientation );
 		}
@@ -54,7 +54,7 @@ Vector2dInt ComputerPlayer::ChooseStrikePos( const Grid* const _opponentGrid )
 				{
 					// We've already encountered a MISS in both directions. Find a random strike pos intead.
 					break;
-				}				
+				}
 				// Let's start moving in the opposite direction (but along the same plane).
 				encounteredMiss = true;
 				directionToStrike *= -1;
@@ -74,7 +74,7 @@ Vector2dInt ComputerPlayer::ChooseStrikePos( const Grid* const _opponentGrid )
 	{
 		GridType testGridType = GridType::HIT;
 
-		while ( testGridType == GridType::HIT || testGridType == GridType::MISS || testGridType == GridType::SHIP_SUNK  )
+		while ( testGridType == GridType::HIT || testGridType == GridType::MISS || testGridType == GridType::SHIP_SUNK )
 		{
 			strikePos = Vector2dInt( rand() % g_gridWidth, rand() % g_gridHeight );
 			testGridType = _opponentGrid->GetGridTypeAtPos( strikePos );

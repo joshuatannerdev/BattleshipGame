@@ -29,7 +29,8 @@ public:
 	void SetGridTypeAtPos( const Vector2dInt& _pos, GridType _gridType );
 	GridType GetGridTypeAtPos( const Vector2dInt& _pos ) const;
 	bool IsPosInGridBounds( const Vector2dInt& _pos ) const {
-		return ( _pos.x >= 0 && _pos.x < g_gridWidth ) && ( _pos.y >= 0 && _pos.y < g_gridHeight ); }	
+		return ( _pos.x >= 0 && _pos.x < g_gridWidth ) && ( _pos.y >= 0 && _pos.y < g_gridHeight );
+	}
 
 private:
 	Grid();
@@ -39,4 +40,3 @@ private:
 	int m_xDrawOffset;
 	bool m_hideShipGridType;
 };
-
