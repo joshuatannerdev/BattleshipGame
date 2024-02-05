@@ -1,5 +1,6 @@
 #include "Ship.h"
 
+#include <assert.h>
 
 int GetLengthForShipType( ShipType _shipType )
 {
@@ -18,27 +19,8 @@ int GetLengthForShipType( ShipType _shipType )
 		default:
 			break;
 	}
-	// Assert - should never hit here!
+	assert( false && "Unknown ShipType" );
 	return 0;
-}
-
-Vector2dInt GetDirectionForShipOrientation( ShipOrientation _shipOrientation )
-{
-	switch ( _shipOrientation )
-	{
-		case LEFT:
-			return Vector2dInt( -1, 0 );
-		case RIGHT:
-			return Vector2dInt( 1, 0 );
-		case UP:
-			return Vector2dInt( 0, -1 );
-		case DOWN:
-			return Vector2dInt( 0, 1 );		
-		default:
-			break;
-	}
-	// Assert - should never hit here!
-	return Vector2dInt( 0, 0 );
 }
 
 Ship::Ship( ShipType _shipType )
@@ -62,16 +44,16 @@ void Ship::SetOrientation( ShipOrientation _shipOrientation )
 	CacheEndPosition();
 }
 
-void Ship::SetPosition( int _posX, int _posY )
+void Ship::SetPosition( const Vector2dInt& _pos )
 {
-	m_startPos.x = _posX;
-	m_startPos.y = _posY;
+	m_startPos.x = _pos.x;
+	m_startPos.y = _pos.y;
 
 	CacheEndPosition();
 }
 
 
-bool Ship::IsPosInShipBounds( Vector2dInt _pos ) const
+bool Ship::IsPosInShipBounds( const Vector2dInt& _pos ) const
 {
 	// Ship can be orienated in different directions, so check
 	// if pos lands in either Start to End OR End to Start.
@@ -86,8 +68,7 @@ bool Ship::IsPosInShipBounds( Vector2dInt _pos ) const
 
 bool Ship::StrikeShip()
 {
-	// Assert health > 0
-
+	assert( m_health > 0 && "Striking a ship that is already destroyed." );
 	m_health--;
 	return m_health <= 0;
 }
@@ -99,6 +80,11 @@ bool Ship::StrikeShip()
 bool Ship::IsShipDestroyed() const
 {
 	return m_health <= 0;
+}
+
+int Ship::GetLength() const
+{
+	return GetLengthForShipType(m_shipType);
 }
 
 void Ship::GetShipBounds( Vector2dInt& o_startPos, Vector2dInt& o_endPos ) const

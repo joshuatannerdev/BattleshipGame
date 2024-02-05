@@ -15,10 +15,11 @@ private:
 
 public:
 	void SetOrientation( ShipOrientation _shipOrientation );
-	void SetPosition( int _posX, int _posY );
-	bool IsPosInShipBounds( Vector2dInt _pos ) const;
+	void SetPosition( const Vector2dInt& _pos );
+	bool IsPosInShipBounds( const Vector2dInt& _pos ) const;
 	bool StrikeShip();
 	bool IsShipDestroyed() const;
+	int GetLength() const;
 	void GetShipBounds( Vector2dInt& o_startPos, Vector2dInt& o_endPos ) const;
 
 private :
@@ -30,7 +31,5 @@ private:
 	Vector2dInt m_startPos;
 	Vector2dInt m_endPos;
 	int m_health;
-
-
 };
 

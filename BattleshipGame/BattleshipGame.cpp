@@ -8,6 +8,7 @@
 
 #include "HumanPlayer.h"
 #include "ComputerPlayer.h"
+#include "InputValidation.h"
 
 
 bool RunMainMenu();
@@ -37,14 +38,20 @@ bool RunMainMenu()
 {
     system( "cls" );
 
-    std::cout << "Welcome to Battleship!" << std::endl << std::endl;
-    std::cout << "Choose:" << std::endl;
+    const char* titleText =      " ____    ____  ______  ______  _        ___  _____ __ __  ____  ____   \n" 
+                                "|    \\  /    ||      ||      || |      /  _]/ ___/|  |  ||    ||    \\ \n"
+                                "|  o  )|  o  ||      ||      || |     /  [_(   \\_ |  |  | |  | |  o  ) \n"
+                                "|     ||     ||_|  |_||_|  |_|| |___ |    _]\\__  ||  _  | |  | |   _/  \n"
+                                "|  O  ||  _  |  |  |    |  |  |     ||   [_ /  \\ ||  |  | |  | |  |    \n"
+                                "|     ||  |  |  |  |    |  |  |     ||     |\\    ||  |  | |  | |  |    \n"
+                                "|_____||__|__|  |__|    |__|  |_____||_____| \\___||__|__||____||__|    \n";
+
+
+    std::cout << titleText << std::endl << std::endl;
     std::cout << "[1] Start game" << std::endl;
     std::cout << "[2] Quit" << std::endl;
 
-    int input;
-    std::cin >> input;
-
+    int input = GetInputInt(1, 2);
     return input == 1 ? true : false;
 }
 
@@ -64,7 +71,7 @@ void RunGame()
     while ( !humanWon && !computerWon )
     {
         humanPlayer.DrawPlayerGrid();
-        computerPlayer.DrawPlayerGrid( 30 );
+        computerPlayer.DrawPlayerGrid();
 
         Vector2dInt strikePos = humanPlayer.ChooseStrikePos(computerPlayer.GetGridReadOnly());
         computerPlayer.StrikePlayerGrid( strikePos );
@@ -74,7 +81,7 @@ void RunGame()
             break;
         }
 
-        Vector2dInt strikePos2 = computerPlayer.ChooseStrikePos(humanPlayer.GetGridReadOnly());
+        strikePos = computerPlayer.ChooseStrikePos(humanPlayer.GetGridReadOnly());
         humanPlayer.StrikePlayerGrid( strikePos );
         if ( humanPlayer.CheckAllShipsDestroyed() )
         {
@@ -83,6 +90,6 @@ void RunGame()
         }
     }
 
-    std::cout << ( humanWon ? "YOU WIN!" : "YOU LOSE!" );
+    std::cout << std::endl << ( humanWon ? "YOU WIN!" : "YOU LOSE!" );
     Sleep( 3000 );
 }

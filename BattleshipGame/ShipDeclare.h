@@ -1,6 +1,9 @@
 #pragma once
 
 #include <string>
+#include <assert.h>
+
+#include "Vector.h"
 
 class Ship;
 
@@ -32,6 +35,7 @@ std::string static ShipTypeToString( ShipType _shipType )
 		default:
 			break;
 	}
+	assert( false && "Unkown ShipType" );
 	return "Unknown Ship Type";
 }
 
@@ -44,6 +48,25 @@ enum ShipOrientation
 
 	SHIPORIENTATION_COUNT
 };
+
+Vector2dInt static GetDirectionForShipOrientation( ShipOrientation _shipOrientation )
+{
+	switch ( _shipOrientation )
+	{
+		case LEFT:
+			return Vector2dInt( -1, 0 );
+		case RIGHT:
+			return Vector2dInt( 1, 0 );
+		case UP:
+			return Vector2dInt( 0, -1 );
+		case DOWN:
+			return Vector2dInt( 0, 1 );
+		default:
+			break;
+	}
+	assert( false && "Unkown ShipOrientation" );
+	return Vector2dInt( 0, 0 );
+}
 
 std::string static ShipOrientationToString( ShipOrientation _shipOrientation )
 {
@@ -60,5 +83,6 @@ std::string static ShipOrientationToString( ShipOrientation _shipOrientation )
 		default:
 			break;
 	}
+	assert( false && "Unkown ShipOrientation" );
 	return "Unknown Ship Orientation";
 }

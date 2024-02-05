@@ -139,6 +139,7 @@
     <ClInclude Include="ComputerPlayer.h" />
     <ClInclude Include="Grid.h" />
     <ClInclude Include="HumanPlayer.h" />
+    <ClInclude Include="InputValidation.h" />
     <ClInclude Include="Player.h" />
     <ClInclude Include="Ship.h" />
     <ClInclude Include="ShipDeclare.h" />

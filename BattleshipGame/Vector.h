@@ -11,10 +11,10 @@ struct Vector2dInt
 		:x(_x)
 		,y(_y)
 	{}
-	bool operator==( const Vector2dInt& _rhs ) { return this->x == _rhs.x && this->y == _rhs.y; }
-	bool operator!=( const Vector2dInt& _rhs ) { return this->x != _rhs.x || this->y != _rhs.y; }
-	bool operator>=( const Vector2dInt& _rhs ) { return this->x >= _rhs.x && this->y >= _rhs.y; }
-	bool operator<=( const Vector2dInt& _rhs ) { return this->x <= _rhs.x && this->y <= _rhs.y; }
+	bool operator==( const Vector2dInt& _rhs ) const { return this->x == _rhs.x && this->y == _rhs.y; }
+	bool operator!=( const Vector2dInt& _rhs ) const { return this->x != _rhs.x || this->y != _rhs.y; }
+	bool operator>=( const Vector2dInt& _rhs ) const { return this->x >= _rhs.x && this->y >= _rhs.y; }
+	bool operator<=( const Vector2dInt& _rhs ) const { return this->x <= _rhs.x && this->y <= _rhs.y; }
 
 	Vector2dInt operator*( const Vector2dInt& _rhs ) { return Vector2dInt( this->x * _rhs.x, this->y * _rhs.y ); }
 	Vector2dInt operator+( const Vector2dInt& _rhs ) { return Vector2dInt( this->x + _rhs.x, this->y + _rhs.y ); }	
@@ -25,6 +25,16 @@ struct Vector2dInt
 		this->y += _rhs.y;
 		return *this;
 	}
+	Vector2dInt& operator*=( const Vector2dInt& _rhs ) {
+		this->x *= _rhs.x;
+		this->y *= _rhs.y;
+		return *this;
+	}
+	Vector2dInt& operator*=( const int _rhs ) {
+		this->x *= _rhs;
+		this->y *= _rhs;
+		return *this;
+	}
 	Vector2dInt operator=( const Vector2dInt& _rhs ) {
 		this->x = _rhs.x;
 		this->y = _rhs.y;
@@ -32,7 +42,7 @@ struct Vector2dInt
 	}
 
 
-	int Length() const { return sqrt( pow( x, 2 ) + pow( y, 2 ) ); }
+	int Length() const { return static_cast<int>(sqrt( pow( x, 2 ) + pow( y, 2 ) )); }
 
 	int x;
 	int y;
